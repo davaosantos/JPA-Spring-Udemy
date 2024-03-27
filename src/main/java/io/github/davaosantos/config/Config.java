@@ -1,12 +1,10 @@
 package io.github.davaosantos.config;
 
+import io.github.davaosantos.Development;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
-@Configuration
-@Profile("production")
+@Development
 public class Config {
 
     @Bean
