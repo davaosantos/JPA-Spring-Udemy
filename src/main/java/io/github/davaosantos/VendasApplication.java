@@ -34,7 +34,7 @@ public class VendasApplication {
 
             //Obtenho todos após o update
             System.out.println("Lista de clientes após o update");
-            clientesRepository.obterTodos().forEach(System.out :: println);
+            clienteList.forEach(System.out :: println);
 
             //Busca por nome
             System.out.println("Busca de cliente por nome");
@@ -42,14 +42,14 @@ public class VendasApplication {
 
             //Deletando o cliente
             System.out.println("Deletando clientes");
-            clientesRepository.obterTodos().forEach(c -> {
-                clientesRepository.deletar(c);
+            clienteList.forEach(cliente -> {
+                clientesRepository.deletarClientePorId(cliente.getId());
             });
 
             if (clientesRepository.obterTodos().isEmpty()){
                 System.out.println("Não encontrado clientes");
             }else{
-                clientesRepository.obterTodos().forEach(System.out::println);
+                clienteList.forEach(System.out::println);
             }
         };
     }
