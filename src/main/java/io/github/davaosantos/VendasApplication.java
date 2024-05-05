@@ -16,41 +16,27 @@ public class VendasApplication {
     @Bean
     public CommandLineRunner init(@Autowired ClientesRepository clientesRepository){
         return args -> {
-            clientesRepository.salvarCliente(new Cliente("David"));
-            clientesRepository.salvarCliente(new Cliente("Fernanda"));
-            clientesRepository.salvarCliente(new Cliente("Ang"));
 
-            //Buscanto todos os clientes
-            System.out.println("Buscanto todos os clientes");
-            List<Cliente> clienteList = clientesRepository.obterTodos();
-            clienteList.forEach(System.out :: println);
+            //Salvando clientes
+            clientesRepository.save(new Cliente("David"));
+            clientesRepository.save(new Cliente("Fernanda"));
+            clientesRepository.save(new Cliente("Ang"));
 
-            //Atualizando
-            System.out.println("Atualizando clientes");
-            clienteList.forEach(cliente -> {
-                cliente.setNome(cliente.getNome() + " atualizado.");
-                clientesRepository.atualizar(cliente);
-            });
+            System.out.println("Testado delete");
+            List<Cliente> clienteList = clientesRepository.findAll();
+            clientesRepository.deleteByNome("David");
+            clienteList.forEach(System.out::println);
 
-            //Obtenho todos após o update
-            System.out.println("Lista de clientes após o update");
-            clienteList.forEach(System.out :: println);
 
-            //Busca por nome
-            System.out.println("Busca de cliente por nome");
-            clientesRepository.buscaClientesPorNome("David").forEach(System.out::println);
+            clienteList = clientesRepository.encontrarPorNomeJpql("Fernanda");
+            clienteList.forEach(System.out::println);
 
-            //Deletando o cliente
-            System.out.println("Deletando clientes");
-            clienteList.forEach(cliente -> {
-                clientesRepository.deletarClientePorId(cliente.getId());
-            });
+            System.out.println("SQL NATIVO ------------");
+            clienteList = clientesRepository.encontrarPorNomeNativo("Fernanda");
+            clienteList.forEach(System.out::println);
 
-            if (clientesRepository.obterTodos().isEmpty()){
-                System.out.println("Não encontrado clientes");
-            }else{
-                clienteList.forEach(System.out::println);
-            }
+            boolean exists = clientesRepository.existsByNome("David");
+            System.out.println("Existe um cliente com o nome David ? " + exists);
         };
     }
 
