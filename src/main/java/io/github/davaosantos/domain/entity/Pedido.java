@@ -21,11 +21,21 @@ public class Pedido {
     @Column(name = "data_pedido")
     private LocalDate dtPedido;
 
-    @Column(name = "total", length = 20, precision = 2)
+
+    //Precision -> Quantidade de digitos
+    //Scale -> Quantidade de numeros após a virgula , casas decimais
+    @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
 
     @OneToMany(mappedBy = "pedido")
     List<ItemPedido> itemPedidos;
+
+    public Pedido() {
+    }
+
+    public Pedido(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public Integer getId() {
         return id;
@@ -65,5 +75,15 @@ public class Pedido {
 
     public void setItemPedidos(List<ItemPedido> itemPedidos) {
         this.itemPedidos = itemPedidos;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "id=" + id +
+                ", cliente=" + cliente +
+                ", dtPedido=" + dtPedido +
+                ", total=" + total +
+                '}';
     }
 }
