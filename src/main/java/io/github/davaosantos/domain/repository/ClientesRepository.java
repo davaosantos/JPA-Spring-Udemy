@@ -21,7 +21,8 @@ public interface ClientesRepository extends JpaRepository<Cliente, Integer> {
     boolean existsByNome(String nome);
 
     @Modifying
-    @Query(" delete from Cliente c where c.nome  =:nome ")
+    @Transactional
+    @Query("DELETE FROM Cliente c WHERE c.nome =:nome")
     void deleteByNome(@Param("nome") String nome);
 
 }

@@ -22,11 +22,15 @@ public class VendasApplication {
             clientesRepository.save(new Cliente("Fernanda"));
             clientesRepository.save(new Cliente("Ang"));
 
-            System.out.println("Testado delete");
+            System.out.println("Vendo os clientes");
             List<Cliente> clienteList = clientesRepository.findAll();
-            clientesRepository.deleteByNome("David");
             clienteList.forEach(System.out::println);
 
+            System.out.println("Tentando deletar david");
+            clientesRepository.deleteByNome("David");
+
+            System.out.println("Deletado , mostrando clientes agora");
+            clienteList.forEach(System.out::println);
 
             clienteList = clientesRepository.encontrarPorNomeJpql("Fernanda");
             clienteList.forEach(System.out::println);
