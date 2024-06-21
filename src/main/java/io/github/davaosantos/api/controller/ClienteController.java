@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -38,14 +37,11 @@ public class ClienteController {
     @DeleteMapping("/deletar/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable("id") Integer idCliente){
-
-        Optional<Cliente> clienteEncontrado = clientesRepository.findById(idCliente);
-
-        if (clienteEncontrado.isPresent()){
-            clientesRepository.delete(clienteEncontrado.get());
-        }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
-        }
+        clientesRepository.findById(idCliente)
+                .map(cliente -> {
+                    clientesRepository.delete(cliente);
+                    return cliente;
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
     }
 
     @PutMapping("/atualizar/{id}")
