@@ -1,0 +1,19 @@
+{
+	"info": {
+		"_postman_id": "f8de010c-c55a-46df-9a63-a261c39b82d0",
+		"name": "API-VENDAS-PEDIDOS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19890547",
+		"_collection_link": "https://grey-moon-108806.postman.co/workspace/API-Projeto-PI3~6078d93c-3455-4ea0-a00b-a22f142d9ff6/collection/19890547-f8de010c-c55a-46df-9a63-a261c39b82d0?action=share&source=collection_link&creator=19890547"
+	},
+	"item": [
+		{
+			"name": "SalvarPedido",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
