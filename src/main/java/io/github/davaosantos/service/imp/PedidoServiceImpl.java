@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -50,12 +51,21 @@ public class PedidoServiceImpl implements PedidoService {
 
         pedidosRepository.save(pedido);
 
+        //pedido.setTotal(recalculaTotalStream(itemPedidos));
+
         itemsPedidoRepository.saveAll(itemPedidos);
 
         pedido.setItemPedidos(itemPedidos);
 
         return pedido;
     }
+
+//    private BigDecimal recalculaTotalStream(List<ItemPedido> itemPedidos) {
+//        return itemPedidos.stream()
+//                .map(ItemPedido::getProduto)
+//                .map(Produto::getPreco)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//    }
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> itens){
         if (itens.isEmpty()){
