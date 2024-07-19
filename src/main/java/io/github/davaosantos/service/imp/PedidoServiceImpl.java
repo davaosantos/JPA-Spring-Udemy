@@ -51,8 +51,6 @@ public class PedidoServiceImpl implements PedidoService {
 
         pedidosRepository.save(pedido);
 
-        //pedido.setTotal(recalculaTotalStream(itemPedidos));
-
         itemsPedidoRepository.saveAll(itemPedidos);
 
         pedido.setItemPedidos(itemPedidos);
