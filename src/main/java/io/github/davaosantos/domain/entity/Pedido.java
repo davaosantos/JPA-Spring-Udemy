@@ -1,5 +1,6 @@
 package io.github.davaosantos.domain.entity;
 
+import io.github.davaosantos.domain.enums.StatusPedido;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,5 +38,9 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido")
     List<ItemPedido> itemPedidos;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusPedido status;
 
 }

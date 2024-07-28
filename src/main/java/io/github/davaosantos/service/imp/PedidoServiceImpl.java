@@ -7,6 +7,7 @@ import io.github.davaosantos.domain.entity.Cliente;
 import io.github.davaosantos.domain.entity.ItemPedido;
 import io.github.davaosantos.domain.entity.Pedido;
 import io.github.davaosantos.domain.entity.Produto;
+import io.github.davaosantos.domain.enums.StatusPedido;
 import io.github.davaosantos.domain.repository.ClientesRepository;
 import io.github.davaosantos.domain.repository.ItemsPedidoRepository;
 import io.github.davaosantos.domain.repository.PedidosRepository;
@@ -45,6 +46,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(pedidoDTO.getTotal());
         pedido.setDtPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemPedidos = converterItems(pedido, pedidoDTO.getItems());
 
