@@ -8,6 +8,7 @@ import io.github.davaosantos.api.dto.PedidoDTO;
 import io.github.davaosantos.domain.entity.ItemPedido;
 import io.github.davaosantos.domain.entity.Pedido;
 import io.github.davaosantos.service.PedidoService;
+import io.github.davaosantos.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
@@ -45,36 +46,9 @@ public class PedidoController {
     @GetMapping("/{id}")
     public InformacoesPedidoDTO getById(@PathVariable("id") Integer idPedido) {
         return pedidoService.obterPedidoCompleto(idPedido)
-                .map(pedido -> converterPedido(pedido))
+                .map(Utils::converterPedido)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
     }
-
-    private InformacoesPedidoDTO converterPedido(Pedido pedido) {
-        return InformacoesPedidoDTO.builder()
-                .codigo(pedido.getId())
-                .dataPedido(pedido.getDtPedido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                .cpf(pedido.getCliente().getCpf())
-                .nomeCliente(pedido.getCliente().getNome())
-                .total(pedido.getTotal())
-                .status(pedido.getStatus().name())
-                .items(converterItemPedido(pedido.getItemPedidos()))
-                .build();
-    }
-
-    private List<InformacaoItemPedidoDTO> converterItemPedido(List<ItemPedido> itemPedidos) {
-        if (CollectionUtils.isEmpty(itemPedidos)) {
-            return Collections.emptyList();
-        }
-
-        return itemPedidos.stream().map(
-                itemPedido -> InformacaoItemPedidoDTO.builder()
-                        .descricaoProduto(itemPedido.getProduto().getDescricao())
-                        .precoUnitario(itemPedido.getProduto().getPreco())
-                        .quantidade(itemPedido.getQuantidade())
-                        .build()
-        ).collect(Collectors.toList());
-    }
-
 
 }
