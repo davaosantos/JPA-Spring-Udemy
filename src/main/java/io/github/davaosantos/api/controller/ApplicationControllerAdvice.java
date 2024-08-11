@@ -2,6 +2,7 @@ package io.github.davaosantos.api.controller;
 
 
 import io.github.davaosantos.api.ApiErrors;
+import io.github.davaosantos.exception.PedidoNaoEncontradoException;
 import io.github.davaosantos.exception.RegraNegocioException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,4 +18,7 @@ public class ApplicationControllerAdvice {
         return new ApiErrors(ex.getMessage());
     }
 
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrors handlePedidoNaoEncontradoException(PedidoNaoEncontradoException ex){ return new ApiErrors(ex.getMessage());}
 }

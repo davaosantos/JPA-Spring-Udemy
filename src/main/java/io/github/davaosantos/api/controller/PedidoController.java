@@ -1,12 +1,10 @@
 package io.github.davaosantos.api.controller;
 
 
-import io.github.davaosantos.api.dto.InformacaoItemPedidoDTO;
-import io.github.davaosantos.api.dto.InformacoesPedidoDTO;
-import io.github.davaosantos.api.dto.ItemPedidoDTO;
-import io.github.davaosantos.api.dto.PedidoDTO;
+import io.github.davaosantos.api.dto.*;
 import io.github.davaosantos.domain.entity.ItemPedido;
 import io.github.davaosantos.domain.entity.Pedido;
+import io.github.davaosantos.domain.enums.StatusPedido;
 import io.github.davaosantos.service.PedidoService;
 import io.github.davaosantos.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +47,14 @@ public class PedidoController {
                 .map(Utils::converterPedido)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateStatus(
+            @PathVariable Integer id,
+            @RequestBody AtualizacaoStatusPedidoDTO dto){
+        pedidoService.atualizaStatus(id, StatusPedido.valueOf(dto.getNovoStatus()));
     }
 
 }

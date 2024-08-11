@@ -12,6 +12,7 @@ import io.github.davaosantos.domain.repository.ClientesRepository;
 import io.github.davaosantos.domain.repository.ItemsPedidoRepository;
 import io.github.davaosantos.domain.repository.PedidosRepository;
 import io.github.davaosantos.domain.repository.ProdutosRepository;
+import io.github.davaosantos.exception.PedidoNaoEncontradoException;
 import io.github.davaosantos.exception.RegraNegocioException;
 import io.github.davaosantos.service.PedidoService;
 import lombok.RequiredArgsConstructor;
@@ -64,12 +65,17 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidosRepository.findByIdFetchItemPedidos(id);
     }
 
-//    private BigDecimal recalculaTotalStream(List<ItemPedido> itemPedidos) {
-//        return itemPedidos.stream()
-//                .map(ItemPedido::getProduto)
-//                .map(Produto::getPreco)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        pedidosRepository
+                .findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return pedidosRepository.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
+    }
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> itens){
         if (itens.isEmpty()){
