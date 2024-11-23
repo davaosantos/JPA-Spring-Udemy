@@ -26,7 +26,7 @@ public class Cliente {
     private Integer id;
 
     @Column(name = "NOME", length = 100)
-    @NotEmpty(message = "Nome não pode estar nulo")
+    @NotEmpty(message = "{campo.nome.obrigatorio}")
     private String nome;
 
     @Column(name = "CPF", length = 11)
